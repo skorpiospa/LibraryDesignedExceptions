@@ -1,18 +1,19 @@
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Catalogue {
+public class Book {
         private String isbn;
         private String title;
         private String author;
         private String [] genders;
 
-    public Catalogue(String isbn, String title, String author, String[] genders) {
+    public Book(String isbn, String title, String author, String[] genders) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.genders = genders;
     }
+
 
     public String getIsbn() {
         return isbn;
@@ -50,8 +51,8 @@ public class Catalogue {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Catalogue catalogue = (Catalogue) o;
-        return Objects.equals(isbn, catalogue.isbn) && Objects.equals(title, catalogue.title) && Objects.equals(author, catalogue.author) && Arrays.equals(genders, catalogue.genders);
+        Book book = (Book) o;
+        return Objects.equals(isbn, book.isbn) && Objects.equals(title, book.title) && Objects.equals(author, book.author) && Arrays.equals(genders, book.genders);
     }
 
     @Override

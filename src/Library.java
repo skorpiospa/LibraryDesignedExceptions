@@ -1,18 +1,61 @@
+import Exceptions.BookNotFoundException;
+import Exceptions.MemberNotFoundException;
+
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Library {
+public class Library implements iLibrary {
 
     private String name;
-    private Catalogue[] books;
+    private Book[] books;
     private Member[] members;
     private Lend [] lends;
 
-    public Library(String name, Catalogue[] books, Member[] members, Lend[] lends) {
+    public Library(String name, Book[] books, Member[] members, Lend[] lends) {
         this.name = name;
         this.books = books;
         this.members = members;
         this.lends = lends;
+    }
+
+    @Override
+    public Book getBook(String askIsbn) throws BookNotFoundException {
+       Book result=null;
+       for (Book book:books){
+           if (book.getIsbn().equals(askIsbn)){
+               result=book;
+           }
+       }
+       if (result==null){
+           throw new BookNotFoundException();
+       }
+       return result;
+    }
+
+    @Override
+    public Member getMember(String nif) throws MemberNotFoundException {
+        Member result=null;
+        for (Member member:members){
+            if (member.getNif().equals(nif)){
+                result=member;
+            }
+        }
+        if (result==null){
+            throw new MemberNotFoundException();
+        }
+        return result;
+    }
+
+    @Override
+    public boolean getBookLend(String nif, String isbn) throws BookNotFoundException, MemberNotFoundException {
+        Member resultMember=getMember(nif);
+        Book resultBook=getBook(isbn);
+        for (Lend lend:lends){
+            if (lend.getIsbn().equals(resultBook.getIsbn())&&lend.getNifMember().equals(resultMember.getNif())){
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getName() {
@@ -23,11 +66,11 @@ public class Library {
         this.name = name;
     }
 
-    public Catalogue[] getBooks() {
+    public Book[] getBooks() {
         return books;
     }
 
-    public void setBooks(Catalogue[] books) {
+    public void setBooks(Book[] books) {
         this.books = books;
     }
 
@@ -73,4 +116,5 @@ public class Library {
                 ", lends=" + Arrays.toString(lends) +
                 '}';
     }
+
 }
